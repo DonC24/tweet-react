@@ -20,7 +20,7 @@ let timeConverted = function(time) {
     let monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
     let month = monthArray[sometime.getMonth()]
     if (day > 0) {
-        return `${date} ${month}`
+        return "biggerthan1"
     } else {
         if (hour > 0) {
             return `${hour} hours ago`;
@@ -41,12 +41,22 @@ class ListItem extends React.Component {
         let durfrom = parsednow - parseddate;
         console.log(durfrom);
         let time = timeConverted(durfrom);
+        if (time === "biggerthan1"){
+            time = this.props.date;
+        }
         return (
           <div>
-              <p><img src={`${this.props.profileimg}`} />{this.props.user.name} @{this.props.user.screen_name} &#183; {time} </p>
-              <p>{this.props.content} </p>
+              <p><img src={`${this.props.profileimg}`} />{this.props.user.name} @{this.props.user.screen_name} &#183; {time}</p>
           </div>
 
+        );
+    }
+}
+
+class Content extends React.Component {
+    render() {
+        return (
+            <p>{this.props.content} </p>
         );
     }
 }
@@ -55,13 +65,18 @@ class Tweets extends React.Component {
 
     render() {
         let itemsElements = this.props.tweets.map( (tweet, index) => {
-                              return <ListItem user={tweet.user} date={tweet.created_at} content={tweet.text} link={tweet.entities.urls[0]} profileimg = {tweet.user.profile_image_url_https} key={index}></ListItem>;
-                            });
-        return (
-          <div>
-            {itemsElements}
-          </div>
-        );
+            return(
+                    <div class="row justify-content-center">
+                        <div class="col">
+                          <ListItem user={tweet.user} date={tweet.created_at} profileimg = {tweet.user.profile_image_url_https} key={index}></ListItem>
+                          <Content content={tweet.text} link={tweet.entities.urls[0]} ></Content>
+                          </div>
+                    </div>
+            )
+        });
+    return (
+        <div class="container">{itemsElements}</div>
+        )
     }
 }
 
