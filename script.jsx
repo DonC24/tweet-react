@@ -44,9 +44,11 @@ class ListItem extends React.Component {
         if (time === "biggerthan1"){
             time = this.props.date;
         }
+
+        let profileurl = `www.twitter.com/${this.props.user.screen_name}`
         return (
           <div>
-              <p><img src={`${this.props.profileimg}`} />{this.props.user.name} @{this.props.user.screen_name} &#183; {time}</p>
+              <img class="rounded-circle" src={`${this.props.profileimg}`} />{this.props.user.name} <a href={profileurl}>@{this.props.user.screen_name}</a> &#183; {time}
           </div>
 
         );
@@ -67,7 +69,7 @@ class Tweets extends React.Component {
         let itemsElements = this.props.tweets.map( (tweet, index) => {
             return(
                     <div class="row justify-content-center">
-                        <div class="col">
+                        <div class="col-6">
                           <ListItem user={tweet.user} date={tweet.created_at} profileimg = {tweet.user.profile_image_url_https} key={index}></ListItem>
                           <Content content={tweet.text} link={tweet.entities.urls[0]} ></Content>
                           </div>
